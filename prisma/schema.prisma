@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Run {
+  id            String    @id @default(cuid())
+  session_id    String
+  mode          String
+  gender        String
+  status        String    @default("active")
+  current_floor Int       @default(0)
+  player_deck   Json
+  badges_earned Int[]     @default([])
+  turns_played  Int       @default(0)
+  achievements  String[]  @default([])
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  finished_at   DateTime?
+
+  @@index([session_id])
+  @@index([status, finished_at])
+  @@map("runs")
+}
